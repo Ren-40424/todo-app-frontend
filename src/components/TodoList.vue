@@ -3,7 +3,10 @@
     <h1>Todo List</h1>
     <ul>
       <li v-for="todo in todos" :key="todo.id">
-        {{ todo.title }} - {{ todo.completed ? '✔️' : '❌' }}
+        <span @click="toggleTodo(todo)" style="cursor: pointer;">
+          {{ todo.title }} - {{ todo.completed ? '✔️' : '❌' }}
+        </span>
+        <button @click="deleteTodo(todo.id)">削除</button>
       </li>
     </ul>
   </div>
@@ -15,12 +18,24 @@ import axios from 'axios'
 
 const todos = ref([])
 
-onMounted(async () => {
-  try {
-    const res = await axios.get('http://localhost:3000/api/todos')
-    todos.value = res.data
-  } catch (error) {
-    console.error('API接続エラー:', error)
-  }
-})
+const fetchTodos = async () => {
+  const res = await axios.get('http://localhost:3000/api/todos')
+  todos.value = res.data
+}
+
+const deleteTodo = async (id) => {
+  await axios.delete(`http://localhost:3000/api/todos/${id}`)
+  fetchTodos()
+}
+
+const toggleTodo = async (todo) => {
+  await axios.put(`http://localhost:3000/api/todos/${todo.id}`, {
+    todo: {
+      completed: !todo.completed
+    }
+  })
+  fetchTodos()
+}
+
+onMounted(fetchTodos)
 </script>
