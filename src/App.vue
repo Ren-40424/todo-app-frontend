@@ -1,11 +1,8 @@
 <template>
   <Header />
-  <TodoForm />
-  <TodoList />
+  <RouterView />
 </template>
 
 <script setup>
-import Header from './components/Header.vue';
-import TodoForm from './components/TodoForm.vue'
-import TodoList from './components/TodoList.vue'
+import Header from '@/components/Header.vue';
 </script>
