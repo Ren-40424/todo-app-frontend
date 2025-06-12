@@ -19,17 +19,17 @@ import axios from 'axios'
 const todos = ref([])
 
 const fetchTodos = async () => {
-  const res = await axios.get('http://localhost:3000/api/todos')
+  const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/todos`)
   todos.value = res.data
 }
 
 const deleteTodo = async (id) => {
-  await axios.delete(`http://localhost:3000/api/todos/${id}`)
+  await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/todos/${id}`)
   fetchTodos()
 }
 
 const toggleTodo = async (todo) => {
-  await axios.put(`http://localhost:3000/api/todos/${todo.id}`, {
+  await axios.put(`${import.meta.env.VITE_API_BASE_URL}/todos/${todo.id}`, {
     todo: {
       completed: !todo.completed
     }
