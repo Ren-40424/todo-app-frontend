@@ -2,14 +2,29 @@
   <header class="header">
     <a href="/" class="logo">TodoApp</a>
     <div class="auth-button-area">
-      <button class="login-button">ログイン</button>
+      <template v-if="isLoggedIn">
+        <span class="username">{{ username }}</span>
+      </template>
+      <template v-else>
+        <button class="login-button" @click="login">ログイン</button>
+      </template>
     </div>
   </header>
 </template>
 
 <script setup>
+import { useAuthRedirect } from '@/composables/useAuthRedirect'
+import { storeToRefs } from 'pinia'
+import { useAuthStore } from '@/stores/auth'
+import { computed } from 'vue'
 
+const { login } = useAuthRedirect()
+const authStore = useAuthStore()
+const { idToken, username } = storeToRefs(authStore)
+
+const isLoggedIn = computed(() => !!idToken.value)
 </script>
+
 
 <style scoped>
 .header {
@@ -50,5 +65,11 @@
 
 .login-button:hover {
   background-color: #1e40af;
+}
+
+.username {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
 }
 </style>

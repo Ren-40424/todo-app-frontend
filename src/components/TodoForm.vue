@@ -7,21 +7,23 @@
 
 <script setup>
 import { ref } from 'vue'
-import axios from 'axios'
+import api from '@/lib/axios.js'
+import { defineEmits } from 'vue'
 
 const title = ref('')
+const emit = defineEmits()
 
 const submitTodo = async () => {
   if (!title.value.trim()) return
   try {
-    await axios.post('http://localhost:3000/api/todos', {
+    await api.post(`${import.meta.env.VITE_API_BASE_URL}/todos`, {
       todo: {
         title: title.value,
         completed: false
       }
     })
+    emit('todo-created')
     title.value = ''
-    window.location.reload() // 簡易的に再読み込みで反映
   } catch (err) {
     console.error('作成失敗:', err)
   }
