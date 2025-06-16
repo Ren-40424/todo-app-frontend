@@ -13,18 +13,17 @@
 </template>
 
 <script setup>
-import { useAuthRedirect } from '@/composables/useAuthRedirect'
-import { storeToRefs } from 'pinia'
-import { useAuthStore } from '@/stores/auth'
-import { computed } from 'vue'
+import { useAuthRedirect } from "@/composables/useAuthRedirect";
+import { storeToRefs } from "pinia";
+import { useAuthStore } from "@/stores/auth";
+import { computed } from "vue";
 
-const { login } = useAuthRedirect()
-const authStore = useAuthStore()
-const { idToken, username } = storeToRefs(authStore)
+const { login } = useAuthRedirect();
+const authStore = useAuthStore();
+const { idToken, username } = storeToRefs(authStore);
 
-const isLoggedIn = computed(() => !!idToken.value)
+const isLoggedIn = computed(() => !!idToken.value);
 </script>
-
 
 <style scoped>
 .header {
